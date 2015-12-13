@@ -1,0 +1,13 @@
+{% extends "studtests/base.html" %}
+
+{% block login %}
+    <div class="row">
+    <div class="small-8 large-6 columns">
+    <form action="/auth/registrate/" method="post">
+        {% csrf_token %}
+        {{ form1 }}
+        <input class="button" name="reg" type="submit" value="Зарегестрироваться">
+    </form>
+    </div>
+    </div>
+{% endblock %}

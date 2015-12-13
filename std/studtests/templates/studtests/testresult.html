@@ -1,0 +1,19 @@
+{% extends "studtests/base.html" %}
+{% block testresult %}
+    <div align="center" id="testrestr">
+    <b>
+    {% if right %}
+    True: <br>
+    {% endif %}
+    {% for r in right %}
+    {{ r }} <br>
+    {% endfor %}
+    {% if unright %}
+    False: <br>
+    {% endif %}
+    {% for u in unright %}
+    {{ u }} <br>
+    {% endfor %}
+    </b>
+    </div>
+{% endblock %}

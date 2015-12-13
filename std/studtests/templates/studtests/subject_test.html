@@ -1,0 +1,16 @@
+{% extends "studtests/base.html" %}
+
+{% block subject_test %}
+{% if tests and username %}
+    <div id="center">
+    <table>
+    <tr><td>Доступные тесты</td></tr>
+    {% for test in tests %}
+        <tr><td><a href="{% url 'studtests:detail' test.id %}">{{ test.name }}</a></td></tr>
+    {% endfor %}
+    </table>
+    </div>
+{% else %}
+    <p>No tests are available.</p>
+{% endif %}
+{% endblock %}

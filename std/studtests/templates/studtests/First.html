@@ -1,0 +1,22 @@
+{% extends "studtests/base.html" %}
+{% load staticfiles %}
+{% block First %}
+
+<div id="center">
+    <a href="/auth/action" class="button radius expand success">Зарегистрироваться</a><br>
+    <a href="/auth/login" class="button radius expand success">Войти</a>
+    <br><br><br><br><br><br>
+    <div style="background-color: rgba(255, 255, 255, 0.22)"><b>В чем наша польза:</b>
+    <ul style="list-style-type: square;">
+        <li><b>Различные виды тестов</b></li>
+        <li><b>Возможность оценивать результаты</b></li>
+        <li><b>Можно добавлять медиа контент</b></li>
+    </ul> </div>
+    <br><br>
+    <ul class="large-block-grid-3">
+        <li><a href="{% static 'studtests/images/mainpage/1.png' %}" class="lightview"><img class="th" src="{% static 'studtests/images/mainpage/1.png' %}"></a></li>
+        <li><a href="{% static 'studtests/images/mainpage/2.png' %}" class="lightview"><img class="th" src="{% static 'studtests/images/mainpage/2.png' %}"></a></li>
+        <li><a href="{% static 'studtests/images/mainpage/3.png' %}" class="lightview"><img class="th" src="{% static 'studtests/images/mainpage/3.png' %}"></a></li>
+    </ul>
+</div>
+{% endblock %}

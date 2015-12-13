@@ -1,0 +1,14 @@
+{% extends "studtests/base.html" %}
+{% block apis %}
+    <div align="center">
+<a href="/api/v1/students/?format=xml">Ученики</a><br>
+<a href="/api/v1/teachers/?format=xml">Учителя</a><br>
+<a href="/api/v1/tests/?format=xml">Тесты</a><br>
+<a href="/api/v1/users/?format=xml">Пользователи</a><br>
+<a href="/api/v1/schools/?format=xml">Школы</a><br>
+<a href="/api/v1/questions/?format=xml">Вопросы</a><br>
+<a href="/api/v1/choices/?format=xml">Ответы</a><br>
+<a href="/api/v1/testresults/?format=xml">Результаты</a><br>
+<a href="/api/v1/imquestions/?format=xml">Вопросы с изображением</a><br>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'studtests/base.html' %}
+{% load staticfiles %}
+{% block raitings %}
+    <div id="center">
+    <table>
+    <tr><td>Название теста</td><td>Тема</td><td>Предмет</td><td>Учитель</td><td>Оценка</td></tr>
+{% for tr in trs %}
+    <tr><td>{{ tr.test.name }}</td><td>{{ tr.test.theme }}</td><td>{{ tr.test.subject }}</td><td>{{ tr.test.teacher }}</td><td>{{ tr.balls }}</td></tr>
+{% endfor %}
+    </table>
+    </div>
+{% endblock %}

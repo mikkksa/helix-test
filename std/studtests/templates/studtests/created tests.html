@@ -1,0 +1,25 @@
+{% extends "studtests/base.html" %}
+{% block createdtests %}
+    <div id="center">
+    <form action="" method="post">
+    {% csrf_token %}
+    <table>
+    <tr><td class="tdgr"><b>Test</b></td><td><b>Visible</b></td><td><b>Stop</b></td><td><b>Delete</b></td></tr>
+    {% for test in tests %}
+        <tr>
+            <td><b><a href = {% url "studtests:teachertest" test.id %}>{{ test }}</a></b></td>
+            {% if test.visibility %}
+            <td><input type="checkbox" name="vis{{ test.id }}" class="inl" checked></td>
+            {% else %}
+            <td><input type="checkbox" name="vis{{ test.id }}" class="inl"></td>
+            {% endif %}
+            <td><input type="checkbox" name="st{{ test.id }}" class="inl"></td>
+            <td><input type="checkbox" name="del{{ test.id }}" class="inl"></td>
+            <td><input type="submit" name="setf{{ test.id }}" id="setf" value="Выставить двойки" class="button tiny"></td>
+        </tr>
+    {% endfor %}
+    <tr><td><input class="button radius expand success" type="submit" name="apply" id="apply" value="Применить"></td></tr>
+    </table>
+    </form>
+    </div>
+{% endblock %}

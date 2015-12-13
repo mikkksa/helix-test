@@ -1,0 +1,25 @@
+{% extends "studtests/base.html" %}
+{% block create_test %}
+    {{ count }}
+    <div class="large-offset-3 large-6 columns">
+    <form action="/create_test/" method="post" class="inl"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="question_text">Текст вопроса</label>
+        <input type="text" name="question_text" id="question_text">
+        <label for="choice_1">Варианты ответов</label>
+        <div id="choices">
+        {% for i in "1234" %}
+            <div class="inl">
+                <input type="text" name = "choice_{{ forloop.counter }}" id ="choice_{{ forloop.counter }}">
+                <input type="checkbox" name="id{{ forloop.counter }}" id = "id{{ forloop.counter }}">
+            </div>
+        {% endfor %}
+        </div>
+    <br>
+        {{ formup }}
+        <a href="#" class="button round" onclick="addchoice()">Добавить ответ</a>
+        <input class="button" type="submit" name="create_question" value="Создать вопрос"><br>
+        <input class="button success round" type="submit" name="end" value="Закончить создание теста">
+    </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+from  django.conf.urls import patterns, url
+from std import settings
+from studtests import views
+
+urlpatterns = patterns('',
+                       url(r'^$', views.index, name='index'),
+                       url(r'^images/(?P<path>.*)$', views.image, name='image'),
+                       url(r'^subjects/$', views.subjects, name='subjects'),
+                       url(r'^(?P<test_id>\d+)/$', views.detail, name='detail'),
+                       url(r'^subjects/(?P<subject_id>\d+)/$', views.subject_test, name='subject_test'),
+                       url(r'^(?P<question_id>\d+)/results/$', views.results, name='results'),
+                       url(r'^(?P<test_id>\d+)/vote/$', views.vote, name='vote'),
+                       url(r'^tests/(?P<res>\d+)/$', views.test_res, name='test_res'),
+                       # url(r'^tests/(?P<subject_id>\d+)$', views.Tests, name='test'),
+                       url(r'^create_test/$', views.create, name='create_test'),
+                       url(r'^lookresults/$', views.lookresults, name='lookresults'),
+                       url(r'^lookresults/(?P<testres_id>\d+)/$', views.lookresult, name='testresult'),
+                       url(r'^students/$', views.students, name='students'),
+                       url(r'^tests/$', views.all_tests, name='tests'),
+                       url(r'^apis/$', views.apis, name='apis'),
+                       url(r'^students/(?P<student_id>\d+)/student_results/$', views.student_results,
+                           name='student_results'),
+                       url(r'^info/$', views.info, name='info'),
+                       url(r'^mytests/$', views.teachertests, name='teachertests'),
+                       url(r'^mytests/(?P<test_id>\d+)/$', views.teachertest, name='teachertest'),
+                       url(r'^post/$', views.gettrfromandr, name='gettrfromandr'),
+                       url(r'^raitings/$', views.raitings, name='raitings'),
+                       url(r'^profile/$', views.profile, name='profile'),
+                       url(r'^ajtry/$', views.ajresp, name='ajaxtry'),
+                       url(r'^ajt/$', views.timestat, name='ajt'),
+                       )

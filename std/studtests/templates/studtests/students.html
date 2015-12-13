@@ -1,0 +1,6 @@
+{% extends 'studtests/base.html' %}
+{% block students %}
+    {% for st in students %}
+        <a href="{% url 'studtests:student_results' st.id %}">{{ st }}</a><br>
+    {% endfor %}
+{% endblock %}

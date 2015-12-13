@@ -1,0 +1,9 @@
+{% if teachers %}
+    <ul>
+    {% for teacher in teachers %}
+        <li><a href="{% url 'studtests:index' %}">{{ teacher.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tests are available.</p>
+{% endif %}

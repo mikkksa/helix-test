@@ -1,0 +1,11 @@
+{% extends "studtests/base.html" %}
+
+{% block action %}
+<div id="center">
+    <form action="/auth/action/" method="post">
+    {% csrf_token %}
+         <input class="button radius expand success" type="submit" name="teacher" id="teacher" value="Я учитель">
+         <input class="button radius expand success" type="submit" name="student" id="student" value="Я студент">
+    </form>
+</div>
+{% endblock %}

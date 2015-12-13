@@ -1,0 +1,40 @@
+{% extends "studtests/base.html" %}
+{% load staticfiles %}
+{% block all_tests %}
+    <form action="/tests/" method="post">
+    {% csrf_token %}
+    <div align="center">
+    <div align="left" style="margin-left: 30px;margin-top: 30px;"><input type="submit" class="button medium" value="Фильтр по классам" name="clfiltr" id="clfiltr">
+    <select class="small" style="width: 100px" name="cl">
+        {% for x in classes %}
+            <option>{{ x }}</option>
+        {% endfor %}
+    </select></div>
+    <div style="display: inline-block">
+    <table>
+    <tr>
+        <td><b>Ученик</b></td><td><b>Тест</b></td><td><b>Дано правильных ответов</b></td><td><b>Дано неправильных ответов</b></td>
+        <td><b>Всего вопросов</b></td><td><b>Всего ответов</b></td><td><b>Всего правильных</b></td><td><b>Оценка</b></td>
+    </tr>
+    {% for t in tests %}
+    <tr>
+        <td>{{t.student}}</td><td><a href="/tests/{{ t.id }}"><b>{{ t.test }}</b></a></td>
+        <td>{{ t.right_count }}</td><td>{{ t.unright_count }}</td>
+        <td>{{ t.quest_count }}</td><td>{{ t.answers_count }}</td>
+        <td>{{ t.test.choice_count }}</td>
+        {% if t.balls == 0 or t.balls == "0" or t.balls == "" %}
+        <td><a href="#" name="rating" class="button tiny" id="rating" onclick="rait({{ t.id }})">Поставить оценку</a> </td>
+        <td style="display: none" id="tdrat{{ t.id }}"><input style="width: 80px;height: 30px" type="text" placeholder="Оценка" name="rat{{ t.id }}" id="r{{ t.id }}"></td>
+        <td style="display: none" id="tdentrat{{ t.id }}"><input type="submit" name="ents{{ t.id }}" class="button tiny" value="Поставить"> </td>
+        {% else %}
+        <td>{{ t.balls }}</td>
+        <td><a href="#" name="edit" class="button tiny" id="edit" onclick="edit({{ t.id }})">Изменить оценку</a> </td>
+        <td style="display: none" id="edrat{{ t.id }}"><input style="width: 80px;height: 30px" type="text" placeholder="Оценка" name="ed{{ t.id }}" id="d{{ t.id }}"></td>
+        <td style="display: none" id="edentrat{{ t.id }}"><input type="submit" name="eeds{{ t.id }}" class="button tiny" value="Изменить" onclick="chname({{ t.id }})"></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </table></div>
+    </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "studtests/base.html" %}
+{% block create_test %}
+    <div class="large-offset-3 large-6 columns" style="margin-top: 10%">
+    <form action="/create_test/" method="post">
+        {% csrf_token %}
+        {% if testtype %}
+        <label for="test_name">Название теста</label>
+        <input type="text" name="test_name" id="test_name">
+        <label for="test_theme">Тема</label>
+        <input type="text" name="test_theme" id="test_theme">
+        <label for="test_grade">Класс</label>
+        <select name="test_grade" id="test_name">
+            <option selected = "selected">Выберите класс</option>
+            {% for grade in grades %}
+                <option>{{ grade.grade }}</option>
+            {% endfor %}
+        </select>
+    <label for="sel">Предмет</label>
+        <select name ="sel">
+            <option selected = "selected">Выберите предмет</option>
+            {% for sub in sublist %}
+                <option>{{ sub.subject }}</option>
+            {% endfor %}
+        </select>
+        {% if testtype == "usual" %}
+        {% elif testtype == "time" %}
+            <label for="time">Время на тест в секундах</label>
+            <input type="text" name="time" id="time">
+        {% elif testtype == "rnd" %}
+            <label for="rnd">Количество вопросов в тесте</label>
+            <input type="text" name="rnd" id="rnd">
+        {% endif %}
+        <input class="button" type="submit" name="create_test" value="Приступить к заполнению теста">
+        {% else %}
+        <input class="button" type="submit" name="usualtest" value="Обычный тест">
+        <input class="button" type="submit" name="timetest" value="Тест на время">
+        <input class="button" type="submit" name="rndtest" value="Случайные вопросы">
+        {% endif %}
+    </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'studtests/foundation.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'studtests/foundation.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'studtests/normalize.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'studtests/style1.css' %}" />
+<script src="{% static 'studtests/modernizr.js' %}"></script>
+<script src="{% static 'studtests/timer.js' %}"></script>
+<script src="{% static 'studtests/jquery-1.11.3.min.js' %}"></script>
+<script src="{% static 'studtests/foundation.js' %}"></script>
+<script src="{% static 'studtests/foundation.topbar.js' %}"></script>
+<script src="{% static 'studtests/foundation.min.js' %}"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<!--[if lt IE 9]>
+  <script type="text/javascript" src="{% static 'studtests/js/excanvas/excanvas.js' %}"></script>
+<![endif]-->
+<script type="text/javascript" src="{% static 'studtests/js/spinners/spinners.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'studtests/js/lightview/lightview.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'studtests/css/lightview/lightview.css' %}"/>
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>School tests</title>
+</head>
+<body>
+<nav class="top-bar" data-topbar role="navigation">
+<div class="top-bar">
+    <section class="top-bar-section">
+        <ul class="right">
+            {% if usertype == "t" %}
+            <li><a href="/mytests">Мои тесты</a></li>
+            <li><a href="/tests">Все результаты тестов ваших учеников</a></li>
+            <li><a href="/create_test">Создать тест</a></li>
+            <li><a href = "/students">Ученики</a></li>
+            {% endif %}
+            {% if usertype == "s" %}
+            <li>
+            <ul class="dropdown1">
+                <li class="dropdown1-top" onmouseover="dropdownsubjects()">
+            <a href="{% url 'studtests:subjects' %}" class="dropdown1-top">Уроки &raquo;</a>
+            <ul class="dropdown1-inside" id="drin">
+            </ul>
+            </li>
+            </ul>
+            </li>
+        <li><a href="{% url 'studtests:raitings' %}">Оценки</a> </li>
+            {% endif %}
+        <li class="active"><a href="/">Домой</a></li>
+            {% if username %}
+                <li><a href="/profile">Профиль</a> </li>
+            <li><a href="/auth/logout/">Выйти  ({{ username  }})</a> </li>
+            {% else %}
+            <li><a href="/auth/login">Войти</a> </li>
+                <li><a href="/auth/action">Регистрация</a> </li>
+            {% endif %}
+        </ul>
+    </section>
+</div>
+</nav>
+<div id="footer">
+   &copy; Молчанов Михаил & Горбачев Александр  <div class="right">
+    <a href="/info" class="A">Информация &nbsp&nbsp&nbsp</a>
+    <a href="/apis" class="A">Наши API</a></div>
+  </div>
+
+
+
+{% if username %}
+{% block getimg %}{% endblock %}
+{% block testresult %}{% endblock %}
+{% if username and usertype == "s" %}
+{% block index %}{% endblock %}
+{% block subjects %}{% endblock %}
+{% block detail %}{% endblock %}
+{% block subject_test %}{% endblock %}
+{% block test %}{% endblock %}
+{% block studresults %}{% endblock %}
+{% elif username and usertype == "t" %}
+{% block tdetail %}{% endblock %}
+{% block createdtests %}{% endblock %}
+{% block student_results %}{% endblock %}
+{% block create_test %}{% endblock %}
+{% block students %}{% endblock %}
+{% block all_tests %}{% endblock %}
+{% block classes %}{% endblock %}
+{% endif %}
+{% else %}
+{% block First %}{% endblock %}
+{% endif %}
+{% block login %}{% endblock %}
+{% block action %}{% endblock %}
+{% block apis %}{% endblock %}
+{% block info %}{% endblock %}
+{% block raitings %}{% endblock %}
+{% block profile %}{% endblock %}
+
+</body>
+</html>

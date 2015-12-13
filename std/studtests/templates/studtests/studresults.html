@@ -1,0 +1,6 @@
+{% extends "studtests/base.html" %}
+{% block studresults %}
+    {% for res in results %}
+        <li><a href="/lookresults/{{ res.id }}">{{ res }}</a></li>
+    {% endfor %}
+{% endblock %}

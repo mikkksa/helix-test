@@ -1,0 +1,66 @@
+{% extends "studtests/base.html" %}
+{% load staticfiles %}
+
+<link href="{% static 'studtests/lightgallery/skins/default/style.css' %}" type="text/css" media="screen" rel="stylesheet" />
+<script src="{% static 'studtests/lightgallery/lightgallery.min.js' %}" type="text/javascript"></script>
+<script>lightgallery.init();</script>
+
+{% block detail %}
+<h1>Название теста: {{ test.name }}, Предмет: {{ test.subject }}
+{% if type == "time" %}
+     {{ test1.time }} секунд на выполнение
+     {% if timer == 'begin' %}
+         Начать
+         {% endif %}
+{% endif %}</h1>
+
+{% if type == 'time' %}
+{% if began == 0 or test.id != began %}
+<p id = "time"></p>
+<button name="bot" id = "bot" onclick="testTimer ({{ test1.time }}, {{ test1.id }})">Начать</button>
+<!--<button name="stop" id="stop"  onclick="stop ()">Остановить</button>-->
+<p id = "rezult">
+</p>
+    {% else %}
+    Тест уже начат, время идет. Осталось: {{ timeost }} секунд
+    {% endif %}
+
+{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if type == "time" and began != test.id  %}
+<form action="{% url 'studtests:vote' test.id %}" method="post" style="display: none" id="gettest">
+{% elif type == "" or type == "rnd" or test.id == began %}
+<form action="{% url 'studtests:vote' test.id %}" method="post" id="gettest">
+{% endif %}
+{% csrf_token %}
+
+<div id="center1" style="margin-left: 0%">
+<table width="30%">
+<tr><td>Вопрос</td><td>Варианты ответа</td></tr>
+{% for question in questions %}
+    <tr>
+    {% if question.test.id == test.id and question.school == test.school and test.visibility %}
+    <td>{{ question.question_text }}
+    {% for im in imqusests %}
+        {% if im.test == question.test and im.question_text == question.question_text %}
+            {% with "studtests"|add:im.image.url as ima %}
+               <a href="{% static ima %}" class="lightview" title="Leaves after rain"><img src="{% static ima %}" width="80%"></a></td>
+            {% endwith %}
+        {% endif %}
+        {% endfor %}
+        {% for choice in choices %}
+            {% if question == choice.question %}
+            <td><input class="inl" type="checkbox" name="choice_{{ choice.id }}" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+            <label class="inl" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label></td>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<input type="submit" class="button success" value="Отправить" />
+</div>
+</form>
+
+{% endblock %}

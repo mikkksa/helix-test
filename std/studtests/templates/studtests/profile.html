@@ -1,0 +1,14 @@
+{% extends 'studtests/base.html' %}
+{% block profile %}
+    <div id="center">
+    <b>Имя: </b>{{ user.name }}<br>
+    <b>Фамилия: </b>{{ user.surname }}<br>
+    <b>Логин: </b>{{ user.login }}<br>
+    <b>Школа</b> {{ user.school }}<br>
+
+    {% if usertype == "t" %}
+    {% elif usertype == "s" %}
+        <b>Тесты: </b>{% for x in tests %}<a href="/studtests/{{ x.id }}">{{ x }},</a> {% endfor %}
+    {% endif %}
+    </div>
+{% endblock %}

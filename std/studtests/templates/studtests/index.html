@@ -1,0 +1,16 @@
+{% extends "studtests/base.html" %}
+{% block index%}
+
+{% if usertype == "s" %}
+{% endif %}
+{% if usertype == "t" %}
+    Вы учитель
+    <a href="/create_test">Создать тест</a>
+{% endif %}
+{% if latest_question_list %}
+    <ul>
+    </ul>
+{% else %}
+    <p>No tests are available.</p>
+{% endif %}
+{% endblock %}

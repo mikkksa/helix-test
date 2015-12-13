@@ -1,0 +1,20 @@
+{% extends "studtests/base.html" %}
+{% block tdetail %}
+    <h1>Тест:  {{ test }}</h1>
+    <div id = "center">
+    <table>
+    <tr><td>Вопрос</td><td>Варианты ответов</td></tr>
+    {% for q in questions %}
+        <tr><td>{{ q }}</td>
+        <td>
+        {% for c in choices %}
+            {% if c.question == q %}
+                {{ c.choice_text }},
+            {% endif %}
+        {% endfor %}
+        </td>
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
+{% endblock %}

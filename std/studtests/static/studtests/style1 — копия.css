@@ -1,0 +1,26 @@
+ul a {
+    color: green;
+}
+body {
+background-image: url("images/Test.png"); /* ѕуть к фоновому изображению */
+background-size: 100% 100%;
+background-repeat:no-repeat;
+}
+Form{
+    background: #E8E8E8; /* ÷вет фона */
+    input: #E8E8E8;
+   }
+INPUT[type="text"] {
+    background-color: #E8E8E8;
+    color: #E8E8E8;
+   }
+INPUT[type="password"] {
+    background-color: navy;
+    color: #ffe;
+   }
+SELECT {
+    color: #E8E8E8; 
+    }
+option{
+color: #E8E8E8;
+}

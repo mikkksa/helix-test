@@ -1,0 +1,14 @@
+{% extends "studtests/base.html" %}
+{% block subjects %}
+{% if subjects %}
+    <div id="center" class="greendiv">
+    <table>
+    {% for subject in subjects %}
+        <tr><td><b><a href="{% url 'studtests:subject_test' subject.id%}">{{ subject.subject }}</a></b></td></tr>
+    {% endfor %}
+    </table>
+    </div>
+{% else %}
+    <p>No tests are available.</p>
+{% endif %}
+{% endblock %}

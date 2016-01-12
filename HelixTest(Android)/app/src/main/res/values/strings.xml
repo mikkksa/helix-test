@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Опросы</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_show_interviews">ShowInterviewsActivity</string>
+    <string name="title_activity_detail_interview">DetailInterviewActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_create">CreateActivity</string>
+    <string name="title_activity_choices_">Choices_Activity</string>
+    <string name="title_activity_available_results">AvailableResultsActivity</string>
+    <string name="title_activity_result_detail">ResultDetailActivity</string>
+</resources>

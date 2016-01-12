@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Текущий IP: "
+        android:id="@+id/curiptext"
+        android:layout_marginTop="144dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Изменить"
+        android:id="@+id/change"
+        android:layout_below="@+id/curiptext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="131dp"
+        android:onClick="changeip" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/changetext"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/change"
+        android:layout_alignEnd="@+id/change"
+        android:layout_alignLeft="@+id/change"
+        android:layout_alignStart="@+id/change" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выйти из пользователя"
+        android:id="@+id/exit_user"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="exit_click" />
+</RelativeLayout>

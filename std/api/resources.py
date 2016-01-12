@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication, MultiAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
-from studtests.models import Teacher, Subject, Test, Student, School, Grade, Choice, Question, TestResult, ImQuestion
+from studtests.models import Teacher, Subject, Test, Student, School, Grade, Choice, Question, TestResult, ImQuestion, Interview, InterviewResult, InterviewChoice, User
 from tastypie.authentication import Authentication
 from tastypie import fields
 from tastypie.serializers import Serializer
@@ -31,7 +31,6 @@ class UserResource(ModelResource):
         limit = 0
         queryset = User.objects.all()
         resource_name = 'users'
-        excludes = ['is_superuser']
         allowed_methods = ['get']
         serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
 
@@ -40,7 +39,7 @@ class MyModelResource(ModelResource):
     def dehydrate(self, bundle):
         try:
             school = School.objects.filter(id=bundle.obj.school.id)
-            user = User.objects.filter(id=bundle.obj.school.id)
+            user = User.objects.filter(id=bundle.obj.user.id)
             bundle.data['user'] = user[0].id
             bundle.data['school'] = school[0].id
         except School.DoesNotExist:
@@ -93,6 +92,7 @@ class QuestionResource(ModelResource):
             pass
         return bundle
     test1 = fields.ForeignKey(TestModelResource, 'test', null=True)
+
     class Meta:
         limit = 0
         queryset = Question.objects.all()
@@ -140,7 +140,7 @@ class StModelResource(ModelResource):
         try:
             grade = Grade.objects.filter(id=bundle.obj.grade.id)
             school = School.objects.filter(id=bundle.obj.school.id)
-            user = User.objects.filter(id=bundle.obj.school.id)
+            user = User.objects.filter(id=bundle.obj.user.id)
             bundle.data['user'] = user[0].id
             bundle.data['school'] = school[0].id
             bundle.data['grade'] = grade[0].id
@@ -167,5 +167,32 @@ class ImquestionsResource(ModelResource):
         queryset = ImQuestion.objects.all()
         resource_name = 'imquestions'
         allowed_methods = ['get']
+        serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
+
+
+class InterviewResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user', null=True)
+    def dehydrate(self, bundle):
+        try:
+            user = User.objects.filter(id=bundle.obj.user.id)
+            bundle.data['user'] = user[0].id
+        except:
+            pass
+        return bundle
+    class Meta:
+        limit = 0
+        queryset = Interview.objects.all()
+        resource_name = 'interviews'
+        allowed_methods = ['get']
+        serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
+
+
+class InterviewChoiceResource(ModelResource):
+    interview = fields.ForeignKey(InterviewResource, 'interview', null=True)
+    class Meta:
+        limit = 0
+        queryset = InterviewChoice.objects.all()
+        resource_name = 'interview_choices'
+        allowed_method = ['get']
         serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
 

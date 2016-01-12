@@ -64,7 +64,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'std.urls'
-
+SESSION_SAVE_EVERY_REQUEST = True
 WSGI_APPLICATION = 'std.wsgi.application'
 
 

@@ -1,18 +1,22 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from studtests.models import Question, Choice, Subject, School,Student, Teacher, Test, TestResult, Grade, TimeTest, ImQuestion
+from studtests.models import Question, Choice, Subject, School, Student, Teacher, Test, TestResult, Grade, TimeTest, \
+    ImQuestion, Interview, InterviewChoice, InterviewResult
+
 
 class SubjectAdmin(admin.ModelAdmin):
     fields = ['subject', 'school']
+
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3
 
+
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['question_text']}),
+        (None, {'fields': ['question_text']}),
         ('Date information', {'fields': ['pub_date', 'edit_date'], 'classes': ['collapse']}),
         ('Subject', {'fields': ['subject']}),
         ('School', {'fields': ['school']}),
@@ -25,10 +29,12 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
     list_display = ('question_text', 'teacher', 'school', 'pub_date', 'edit_date')
 
+
 class StudentInline(admin.StackedInline):
     model = Student
     can_delete = False
     verbose_name_plural = 'student'
+
 
 class UserAdmin(UserAdmin):
     inlines = (StudentInline, )
@@ -47,3 +53,6 @@ admin.site.register(TestResult)
 admin.site.register(Grade)
 admin.site.register(TimeTest)
 admin.site.register(ImQuestion)
+admin.site.register(Interview)
+admin.site.register(InterviewChoice)
+admin.site.register(InterviewResult)

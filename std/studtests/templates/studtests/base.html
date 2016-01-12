@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'studtests/foundation.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'studtests/foundation.css' %}"
+      xmlns="http://www.w3.org/1999/html"/>
 <link rel="stylesheet" type="text/css" href="{% static 'studtests/foundation.min.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'studtests/normalize.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'studtests/style1.css' %}" />
@@ -31,12 +32,26 @@
     <section class="top-bar-section">
         <ul class="right">
             {% if usertype == "t" %}
+            <li><a href="/myinterviews">Мои опросы</a></li>
             <li><a href="/mytests">Мои тесты</a></li>
             <li><a href="/tests">Все результаты тестов ваших учеников</a></li>
             <li><a href="/create_test">Создать тест</a></li>
+            <li><a href="/createint">Создать опрос</a> </li>
             <li><a href = "/students">Ученики</a></li>
             {% endif %}
             {% if usertype == "s" %}
+            <li>
+            <ul class="dropdown1">
+                <li class="dropdown1-top">
+            <a href="#" class="dropdown1-top">Поиск опроса</a>
+            <ul class="dropdown1-inside" id="drin1">
+                <li><form method="post" action="{% url "studtests:find_int" %}">{% csrf_token %}
+                    <input type="text" id="intertext" name="intertext"><input type="submit" value="Поиск" name="submit" class="button" style="width: 100%">
+                </form> </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
             <li>
             <ul class="dropdown1">
                 <li class="dropdown1-top" onmouseover="dropdownsubjects()">
@@ -69,9 +84,12 @@
 
 
 {% if username %}
+{% block interviews %}{% endblock %}
+{% block interview_result %}{% endblock %}
 {% block getimg %}{% endblock %}
 {% block testresult %}{% endblock %}
 {% if username and usertype == "s" %}
+{% block detail_int %}{% endblock %}
 {% block index %}{% endblock %}
 {% block subjects %}{% endblock %}
 {% block detail %}{% endblock %}
@@ -79,6 +97,7 @@
 {% block test %}{% endblock %}
 {% block studresults %}{% endblock %}
 {% elif username and usertype == "t" %}
+{% block createint %}{% endblock %}
 {% block tdetail %}{% endblock %}
 {% block createdtests %}{% endblock %}
 {% block student_results %}{% endblock %}

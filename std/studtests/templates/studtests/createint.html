@@ -1,0 +1,18 @@
+{% extends "studtests/base.html" %}
+{% block createint %}
+    <div id="center1">
+    <form method="post" action="">
+        {% csrf_token %}
+        <label for="name">Название опроса</label>
+        <input type="text" name="name" id="name" style="width: 40%; height: 50%">
+        <label for="group">Название группы(Введите "d" для общей группы)</label>
+        <input type="text" name="group" id="group" style="width: 40%; height: 50%">
+            <label for="ch1">Варианты ответов</label>
+            <div class="inl"><input type="text" name="ch1" style="width: 60%; height: 50%"></div>
+            <div class="inl"><input type="text" name="ch2" style="width: 60%; height: 50%;"></div>
+            <div class="inl"><input type="text" name="ch3" style="width: 60%; height: 50%">
+        </div><br>
+        <input type="submit" name="submit" id="submit" class="button round" value="Создать опрос">
+    </form>
+    </div>
+{% endblock %}

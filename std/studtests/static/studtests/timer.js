@@ -1,6 +1,7 @@
 var chid = 4;
 var mmoved = false;
 var once = false;
+var moved1 = false;
 
 /*Timer code beginnig*/
 //Объявим переменную
@@ -16,7 +17,7 @@ var gettest = document.getElementById("gettest");
 document.getElementById("rezult").innerHTML = '';
 //выключим кнопку запуска
 var bot = document.getElementById("bot");
-bot.setAttribute("disabled","");
+bot.parentNode.removeChild(bot);
 gettest.style.display = "";
 //bot.style.display = "none";
 //сколько будет длится обратный отчет
@@ -56,9 +57,6 @@ function stop(){
     gettest.style.display = "none";
 	//очистим переменную с таймером
 	clearTimeout(stopTimer);
-	//и включим кнопку запуска
-	var bot = document.getElementById("bot");
-	bot.removeAttribute("disabled","disabled");
 }
 /*Timer code ending*/
 
@@ -154,14 +152,13 @@ function addschools(schools)
         {
             sub = schools[i];
         }
-        else
-        {
-        var newli = document.createElement('li');
-        var newa = document.createElement('a');
-        newa.href = "/studtests/subjects/" + schools[i] + "/";
-        newa.innerHTML = sub;
-        newli.appendChild(newa);
-        el.appendChild(newli);
+        else {
+            var newli = document.createElement('li');
+            var newa = document.createElement('a');
+            newa.href = "/studtests/subjects/" + schools[i] + "/";
+            newa.innerHTML = sub;
+            newli.appendChild(newa);
+            el.appendChild(newli);
         }
     }
 }

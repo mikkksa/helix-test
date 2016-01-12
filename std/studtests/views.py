@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import random, time, threading
 
 from django.shortcuts import render, get_object_or_404, redirect
@@ -5,9 +8,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import auth
+from django.contrib.auth.models import User
 
 from  studtests.models import Question, Teacher, Subject, Choice, Test, Student, TestResult, Grade, TimeTest, \
-    ImQuestion, UploadFileForm, RndTest
+    ImQuestion, UploadFileForm, RndTest, Interview, InterviewChoice, InterviewResult
+
+from django.contrib.sessions.backends.db import SessionStore
 
 
 def logined(request):
@@ -45,16 +51,17 @@ def RndQuestions(questionlist, count):
 def subject_test(request, subject_id):
     tests = []
     subject = Subject.objects.get(id=int(subject_id))
+    student = Student()
+    if 'usertype' in request.session:
+        if request.session['usertype'] == "s":
+            student = Student.objects.get(login=request.session['username'])
     for test in Test.objects.all():
         finished = False
-        if 'usertype' in request.session:
-            if request.session['usertype'] == "s":
-                student = Student.objects.get(login=request.session['username'])
-                for tr in TestResult.objects.all():
-                    if tr.test.name == test.name and tr.student == student:
-                        finished = True
+        for tr in TestResult.objects.all():
+            if tr.test.name == test.name and tr.student == student:
+                finished = True
 
-        if test.subject == subject and test.visibility == True and test.school == subject.school and finished == False:
+        if test.subject == subject and test.visibility and test.school == subject.school and not finished:
             tests.append(test)
     context = {'tests': tests}
     if 'username' in request.session:
@@ -117,7 +124,6 @@ def detail(request, test_id):
             break
     if request.POST:
         return HttpResponse("kek")
-    request.session['starts'] = None
     if 'starts' in request.session and request.session['starts'] is not None:
         began = Test.objects.get(pk=int(request.session['starts'])).id
         if 'timestart' in request.session:
@@ -711,7 +717,7 @@ def gettrfromandr(request):
     return HttpResponse(data)
 
 
-"""Ajax technologie for menu with subjects"""
+"""Ajax technology for menu with subjects"""
 
 
 def ajresp(request):
@@ -729,12 +735,13 @@ def ajresp(request):
 
 
 def timecount(request):
-    # TODO sending end of the test
     tested = False
     student = Student.objects.get(login=request.session['username'])
     a = int(str(request.session['starts']))
     test = Test.objects.get(pk=a)
     request.session['starts'] = None
+    request.session.modified = True
+    request.session.save()
     for x in TestResult.objects.all():
         if x.test.id == a and x.student.id == student.id:
             tested = True
@@ -764,7 +771,209 @@ def timestat(request):
         request.session['timestart'] = time.time()
         """Else test already beganned and student has some problems"""
     """if 'tmes' in request.POST:
+        if 'tmes' in request.POST:
         tid = int(request.POST['id'])
         test = TimeTest.objects.get(pk=tid)"""
 
     return HttpResponse("kek")
+
+
+def createinterview(request):
+    if request.session['usertype'] == "t":
+        if request.POST:
+            name = request.POST.get("name")
+            group = request.POST.get("group")
+            interview = Interview(name=name, group=group, user=User.objects.get(username=request.session['username']))
+            interview.save()
+            choices = [x for x in request.POST if x.startswith("ch")]
+            for x in choices:
+                choice = InterviewChoice(interview=interview, name=request.POST.get(x))
+                choice.save()
+            return redirect("/")
+    return render(request, 'studtests/createint.html',
+                  {'username': request.session['username'], 'usertype': request.session['usertype']})
+
+
+def find_interview(request):
+    context = {'username': request.session['username'], 'usertype': request.session['usertype']}
+    if request.POST:
+        if "send" in request.POST:
+            choices_ = [x for x in request.POST if x.startswith("r")]
+            choices__ = []
+            for x in choices_:
+                choice = InterviewChoice.objects.get(pk=int(request.POST[x]))
+                choice.pick = str(int(choice.pick) + 1)
+                choice.save()
+                choices__.append(request.POST.get(x))
+                intresult = InterviewResult(user=User.objects.get(username=request.session['username']),
+                                            choice=choice)
+                intresult.save()
+            return redirect("/")
+        else:
+            group = request.POST.get("intertext")
+            interviews, choices = [], []
+            checked = False
+            for x in Interview.objects.all():
+                for y in InterviewResult.objects.all():
+                    if y.user == User.objects.get(username=request.session['username']) and y.choice.interview == x:
+                        checked = True
+                if x.group == group and x.visible and not checked:
+                    interviews.append(x)
+                    choices.append(x.interviewchoice_set)
+                checked = False
+            context["interviews"], context["choices"] = interviews, choices
+    return render(request, "studtests/detail_int.html", context)
+
+
+def detail_interviews(request):
+    args = {"username": request.session['username'], "usertype": request.session['usertype']}
+    interviews = [x for x in Interview.objects.all() if
+                  x.user == User.objects.get(username=request.session['username'])]
+    args['interviews'] = interviews
+    if request.POST:
+        dels = [x for x in request.POST if x.startswith("del")]
+        viss = [x for x in request.POST if x.startswith("vis")]
+        for x in dels:
+            x = x.replace("del", "")
+            interview = Interview.objects.get(pk=int(x))
+            interview.delete()
+        for x in viss:
+            x = x.replace("vis", "")
+            interview = Interview.objects.get(pk=int(x))
+            interview.visible = True
+            interview.save()
+        for x in Interview.objects.all():
+            if "vis" + str(x.id) not in viss and x.user == User.objects.get(username=request.session['username']):
+                x.visible = False
+                x.save()
+        return redirect("/myinterviews", args)
+    return render(request, "studtests/interviews.html", args)
+
+
+def interview_result(request, int_id):
+    args = {'username': request.session['username'], 'usertype': request.session['usertype']}
+    interview = Interview.objects.get(pk=int_id)
+    choices = [x for x in InterviewChoice.objects.all() if x.interview.id == interview.id]
+    args['interview'], args['choices'] = interview, choices
+    reslen = len([x for x in InterviewResult.objects.all() if x.choice.interview.id == interview.id])
+    args['reslen'] = reslen
+    return render(request, "studtests/interview_res.html", args)
+
+
+@csrf_exempt
+def send_avinterviews(request):
+    user = User.objects.get(pk=int(request.POST.get('user')))
+    interviews = request.POST.get("ints").split("/")
+    checked = []
+    availables = []
+    stravailables = ""
+
+    for x in InterviewResult.objects.all():
+        if str(x.choice.interview.id) in interviews and x.user.id == user.id:
+            checked.append(str(x.choice.interview.id))
+    for x in interviews:
+        if x not in str(checked):
+            availables.append(x)
+            stravailables += x + "/"
+    stravailables = stravailables[:len(stravailables) - 1]
+    print "checked" + str(checked)
+    return HttpResponse(stravailables)
+
+
+@csrf_exempt
+def send_choices_id(request):
+    ret = ""
+    interview = Interview.objects.get(pk=int(request.POST.get("id")))
+    choices = [x for x in InterviewChoice.objects.all() if x.interview.id == interview.id]
+    for x in choices:
+        ret += str(x.id) + "/"
+    ret = ret[:len(ret) - 1]
+    return HttpResponse(ret)
+
+
+@csrf_exempt
+def get_res(request):
+    checked = False
+    choice = InterviewChoice.objects.get(pk=int(request.POST.get("id")))
+    choice.pick = str(int(choice.pick) + 1)
+    choice.save()
+    user = User.objects.get(pk=int(request.POST.get("user")))
+    try:
+        result = InterviewResult.objects.get(choice=choice, user=user)
+        checked = True
+    except:
+        checked = False
+    if not checked:
+        result = InterviewResult(choice=choice, user=user)
+        result.save()
+    return HttpResponse("done")
+
+
+@csrf_exempt
+def send_choices_name(request):
+    res = ""
+    ids = request.POST.get("ids").split("/")
+    for x in ids:
+        choice = InterviewChoice.objects.get(pk=int(x))
+        res += choice.name + "/"
+    res = res[:len(res) - 1]
+    return HttpResponse(res)
+
+
+@csrf_exempt
+def get_user(request):
+    id = "None"
+    print "login"
+    try:
+        user = auth.authenticate(username=request.POST.get('login'), password=request.POST.get('password'))
+        auth.login(request, user)
+        user_ = User.objects.get(username=request.POST.get("login"))
+        print "login..."
+        id = str(user_.id)
+    except:
+        pass
+    return HttpResponse(id)
+
+
+@csrf_exempt
+def create_int_andr(request):
+    int_name = request.POST.get("int_name")
+    group = request.POST.get("group")
+    choices = request.POST.get("choices").split("/")
+    user = User.objects.get(pk=int(request.POST.get("user_id")))
+    interview = Interview(name=int_name, user=user, group=group)
+    exist = False
+    try:
+        int_ = Interview.objects.get(name=int_name)
+        if int_.group == group:
+            exist = True
+    except:
+        exist = False
+    if not exist:
+        interview.save()
+        for x in choices:
+            choice = InterviewChoice(interview=interview, name=x)
+            choice.save()
+            print choice
+    return HttpResponse("done")
+
+
+@csrf_exempt
+def send_checked_ids(request):
+    result = ""
+    user = User.objects.get(pk=int(request.POST.get("user")))
+    results = [x for x in InterviewResult.objects.all() if x.user.id == user.id]
+    for x in results:
+        result += str(x.choice.interview.id) + "/"
+    return HttpResponse(result[:len(result) - 1])
+
+
+@csrf_exempt
+def lookresint(request):
+    interview = Interview.objects.get(pk=int(request.POST.get("interview")))
+    choices = [x for x in InterviewChoice.objects.all() if x.interview.id == interview.id]
+    choicesstr = ""
+    for x in choices:
+        choicesstr += str(x) + "/" + str(x.pick) + "/"
+    choicesstr = choicesstr[:len(choicesstr) - 1]
+    return HttpResponse(choicesstr)

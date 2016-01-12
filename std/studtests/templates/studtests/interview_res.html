@@ -1,0 +1,13 @@
+{% extends "studtests/base.html" %}
+{% block interview_result %}
+    <div id="center">
+    <div class="progress">
+    {% for x in choices %}
+        <b>{{ x.pick }}</b>
+        <span style="width: {% widthratio x.pick reslen 100  %}%" class="meter blue">
+        <p class="percent">{% widthratio x.pick reslen 100  %}%</p>
+        </span>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock %}

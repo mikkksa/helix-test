@@ -1,0 +1,17 @@
+{% extends "studtests/base.html" %}
+{% block detail_int %}
+    <div id="center">
+    <form action="" method="post">
+    {% csrf_token %}
+    {% for x in interviews %}
+        <b>{{ x }}</b><br>
+        <div style="padding-left: 10%; border: solid #6495ED;">
+        {% for y in x.interviewchoice_set.all %}
+            <input type="radio" style="margin-right: 20px" name="r{{ x.id }}" id="r{{ x.id }}" value="{{ y.id }}">{{ y }} <br>
+            {% endfor %}
+         </div>
+    {% endfor %}
+    <input style="margin-top: 20px" type="submit" class="button" name="send" value="Отправить">
+    </form>
+    </div>
+{% endblock %}

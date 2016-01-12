@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from api.resources import MyModelResource, TestModelResource, UserResource, StModelResource, SchoolResource, \
-    GradeResource, QuestionResource, ChoiceResource, TestResultResource, ImquestionsResource
+    GradeResource, QuestionResource, ChoiceResource, TestResultResource, ImquestionsResource, InterviewResource, InterviewChoiceResource
 from tastypie.api import Api
 
 v1_api = Api(api_name='v1')
@@ -15,6 +15,8 @@ v1_api.register(QuestionResource())
 v1_api.register(ChoiceResource())
 v1_api.register(TestResultResource())
 v1_api.register(ImquestionsResource())
+v1_api.register(InterviewResource())
+v1_api.register(InterviewChoiceResource())
 
 urlpatterns = patterns('',
 

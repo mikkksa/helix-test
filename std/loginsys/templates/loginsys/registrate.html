@@ -6,7 +6,7 @@
     <form action="/auth/registrate/" method="post">
         {% csrf_token %}
         {{ form1 }}
-        <input class="button" name="reg" type="submit" value="Зарегестрироваться">
+        <input class="button" name="reg" type="submit" value="Зарегестрироваться" onclick="check_register()">
     </form>
     </div>
     </div>

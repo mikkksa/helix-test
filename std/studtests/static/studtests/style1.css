@@ -21,7 +21,7 @@ ul a {
     color: green;
 }
 body {
-background-image: url("images/Test.jpg");
+/*background-image: url("images/Test.jpg");*/
 background-size: 100% 100%;
 background-repeat:no-repeat;
 background-attachment: fixed;

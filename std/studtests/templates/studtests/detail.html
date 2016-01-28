@@ -45,16 +45,20 @@
     {% for im in imqusests %}
         {% if im.test == question.test and im.question_text == question.question_text %}
             {% with "studtests"|add:im.image.url as ima %}
-               <a href="{% static ima %}" class="lightview" title="Leaves after rain"><img src="{% static ima %}" width="80%"></a></td>
+               <a href="{% static ima %}" class="lightview" title="Изображение к тесту"><img src="{% static ima %}" width="80%"></a></td>
             {% endwith %}
         {% endif %}
         {% endfor %}
+        {% if not question.enter %}
         {% for choice in choices %}
             {% if question == choice.question %}
             <td><input class="inl" type="checkbox" name="choice_{{ choice.id }}" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
             <label class="inl" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label></td>
             {% endif %}
         {% endfor %}
+            {% else %}
+            <td><input class="inl" type="text" name="enter_{{ question.id }}"></td>
+        {% endif %}
     {% endif %}
     </tr>
     {% endfor %}

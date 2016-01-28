@@ -1,13 +1,22 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+from django.utils.html import format_html
 from studtests.models import Question, Choice, Subject, School, Student, Teacher, Test, TestResult, Grade, TimeTest, \
-    ImQuestion, Interview, InterviewChoice, InterviewResult
+    ImQuestion, Interview, InterviewChoice, InterviewResult, News
 
 
 class SubjectAdmin(admin.ModelAdmin):
     fields = ['subject', 'school']
 
+class LawyerAdmin(admin.ModelAdmin):
+    list_display = ('definition', 'image')
+
+    def show_firm_url(self, obj):
+        return format_html("<a href='{url}'>{url}</a>", url=obj.firm_url)
+
+    show_firm_url.short_description = "Firm URL"
+    show_firm_url.allow_tags = True
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -56,3 +65,4 @@ admin.site.register(ImQuestion)
 admin.site.register(Interview)
 admin.site.register(InterviewChoice)
 admin.site.register(InterviewResult)
+admin.site.register(News, LawyerAdmin)

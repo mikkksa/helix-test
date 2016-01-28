@@ -40,4 +40,6 @@ urlpatterns = patterns('',
                        url(r'^create_int_andr/$', views.create_int_andr, name='create_int_andr'),
                        url(r'^getcheckedids/$', views.send_checked_ids, name='getcheckedids'),
                        url(r'^lookresint/$', views.lookresint, name='lookresint'),
+                       url(r'^st_int_res/$', views.student_checked_ints, name="student_checked_ints"),
+                       url(r'^getrestest/$', views.getrestest, name='getrestest'),
                        )

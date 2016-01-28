@@ -1,16 +1,16 @@
 {% extends "studtests/base.html" %}
-{% block index%}
-
-{% if usertype == "s" %}
-{% endif %}
-{% if usertype == "t" %}
-    Вы учитель
-    <a href="/create_test">Создать тест</a>
-{% endif %}
-{% if latest_question_list %}
-    <ul>
-    </ul>
-{% else %}
-    <p>No tests are available.</p>
-{% endif %}
+{% load staticfiles %}
+{% block index %}
+    <div style="padding-left: 35%; margin-top: 10%; padding-right: 30%">
+    <table>
+    {% for x in news %}
+        <tr>
+        {% with "studtests"|add:x.image.url as newsimage%}
+            <td width="40%"><img src="{% static newsimage %}"></td>
+        {% endwith %}
+        <td>{{ x }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
 {% endblock %}

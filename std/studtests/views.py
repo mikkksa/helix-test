@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+#from __future__ import unicode_literals
 
 import random, time, threading
 
@@ -11,7 +11,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 
 from  studtests.models import Question, Teacher, Subject, Choice, Test, Student, TestResult, Grade, TimeTest, \
-    ImQuestion, UploadFileForm, RndTest, Interview, InterviewChoice, InterviewResult
+    ImQuestion, UploadFileForm, RndTest, Interview, InterviewChoice, InterviewResult, News
 
 from django.contrib.sessions.backends.db import SessionStore
 
@@ -30,7 +30,7 @@ def index(request):
     if not 'username' in request.session:
         return render(request, 'studtests/First.html')
     latest_question_list = Question.objects.all()
-    context = {'latest_question_list': latest_question_list}
+    context = {'latest_question_list': latest_question_list, 'news': News.objects.all()[::-1]}
     if 'username' in request.session:
         context['username'] = request.session['username']
     if 'usertype' in request.session:
@@ -860,6 +860,17 @@ def interview_result(request, int_id):
     return render(request, "studtests/interview_res.html", args)
 
 
+def student_checked_ints(request):
+    args = {"username": request.session["username"], "usertype": request.session["usertype"]}
+    user = User.objects.get(username=request.session["username"])
+    ints = []
+    for x in InterviewResult.objects.all():
+        if x.user.id == user.id:
+            ints.append(x.choice.interview)
+    args["ints"] = ints
+    return render(request, "studtests/student_checked_ints.html", args)
+
+
 @csrf_exempt
 def send_avinterviews(request):
     user = User.objects.get(pk=int(request.POST.get('user')))
@@ -971,9 +982,21 @@ def send_checked_ids(request):
 @csrf_exempt
 def lookresint(request):
     interview = Interview.objects.get(pk=int(request.POST.get("interview")))
+    print int(request.POST.get("interview"))
+    print interview.name
     choices = [x for x in InterviewChoice.objects.all() if x.interview.id == interview.id]
     choicesstr = ""
     for x in choices:
         choicesstr += str(x) + "/" + str(x.pick) + "/"
     choicesstr = choicesstr[:len(choicesstr) - 1]
     return HttpResponse(choicesstr)
+
+@csrf_exempt
+def getrestest(request):
+    student = Student.objects.get(pk=int(request.POST.get("login")))
+    trs = [x for x in TestResult.objects.all() if x.student.id == student.id]
+    strres = ""
+    for x in trs:
+        x += x.id + "/"
+    strres = strres[:len(strres)-1]
+    return HttpResponse(strres)

@@ -1,13 +1,13 @@
 {% extends "studtests/base.html" %}
 
 {% block login %}
-<div class="large-offset-3 small-4 columns">
+<div class="" id="center">
     <form action="/auth/login/" method="post">
         {% csrf_token %}
         <label for="username">Имя пользователя</label>
-        <input type="text" name="username" id="username">
+        <input type="text" name="username" id="username"  style="width: 30%;height: 10%;" autofocus required>
         <label for="password">Пароль</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password" style="width: 30%;height: 10%;" autofocus required>
         {% if login_error %}
         <label class="error">{{ login_error }}</label>
         {% endif %}

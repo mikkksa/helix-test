@@ -1,0 +1,27 @@
+{% extends  "studtests/base.html"%}
+{% block student_checked_ints %}
+    <style>
+   table {
+    border-collapse: separate; /* Способ отображения границы */
+    width: 100%; /* Ширина таблицы */
+    border-spacing: 7px 11px; /* Расстояние между ячейками */
+   }
+   td {
+    padding: 5px; /* Поля вокруг текста */
+   }
+  </style>
+    <div id="center">
+    <table style="">
+    {% for x in ints %}
+        {% if forloop.counter0|divisibleby:"3" %}
+            {% if not forloop.counter0|divisibleby:"10" %}
+                </tr>
+            {% endif  %}
+            <tr><td><a href="{% url "studtests:int_res" x.id %}"> {{ x }}</a></td>
+            {% else %}
+            <td><a href="{% url "studtests:int_res" x.id %}"> {{ x }}</a></td>
+        {% endif %}
+    {% endfor %}
+    </table>
+    </div>
+{% endblock %}

@@ -181,3 +181,9 @@ function timebeg(id)
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(body);
 }
+
+function check_register(){
+    var username = document.getElementById("id_username");
+    if(username == "")
+        alert("Незаполненные поля");
+}

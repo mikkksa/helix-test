@@ -61,6 +61,7 @@
             </li>
             </ul>
             </li>
+        <li><a href="{% url "studtests:student_checked_ints" %}">Результаты опросов</a> </li>
         <li><a href="{% url 'studtests:raitings' %}">Оценки</a> </li>
             {% endif %}
         <li class="active"><a href="/">Домой</a></li>
@@ -84,13 +85,14 @@
 
 
 {% if username %}
+{% block index %}{% endblock %}
 {% block interviews %}{% endblock %}
 {% block interview_result %}{% endblock %}
 {% block getimg %}{% endblock %}
 {% block testresult %}{% endblock %}
 {% if username and usertype == "s" %}
+{% block student_checked_ints %}{% endblock %}
 {% block detail_int %}{% endblock %}
-{% block index %}{% endblock %}
 {% block subjects %}{% endblock %}
 {% block detail %}{% endblock %}
 {% block subject_test %}{% endblock %}

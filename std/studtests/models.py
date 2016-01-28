@@ -89,6 +89,7 @@ class Question(models.Model):
     theme = models.CharField(max_length=200)
     visibility = models.BooleanField(default=False)
     test = models.ForeignKey(Test, null=True)
+    enter = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.question_text
@@ -188,3 +189,11 @@ class InterviewResult(models.Model):
 
     def __unicode__(self):
         return self.choice.name
+
+
+class News(models.Model):
+    definition = models.CharField(max_length=2000)
+    image = models.ImageField()
+
+    def __unicode__(self):
+        return self.definition

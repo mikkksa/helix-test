@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django.contrib.auth.tests.custom_user import CustomUser
 from django.db import models
 from multiprocessing.managers import public_methods
@@ -9,6 +8,7 @@ from django import forms
 from django.template.defaultfilters import length, default
 from django.contrib.auth.models import User, UserManager
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.encoding import smart_unicode
 import datetime
 import os
 import PIL
@@ -22,14 +22,14 @@ class School(models.Model):
     school = models.CharField(max_length=200, null=True)
 
     def __unicode__(self):
-        return self.school
+        return smart_unicode(self.school)
 
 
 class Grade(models.Model):
     grade = models.CharField(max_length=3)
 
     def __unicode__(self):
-        return self.grade
+        return smart_unicode(self.grade.encode('utf8')) or u''
 
 
 class Subject(models.Model):
@@ -37,7 +37,7 @@ class Subject(models.Model):
     school = models.ForeignKey(School, null=True)
 
     def __unicode__(self):
-        return self.subject
+        return smart_unicode(self.subject.encode('utf8'))
 
 
 class Teacher(models.Model):
@@ -48,7 +48,7 @@ class Teacher(models.Model):
     school = models.ForeignKey(School, null=True)
 
     def __unicode__(self):
-        return self.name + ' ' + self.surname
+        return smart_unicode(self.name.encode('utf8')) + ' ' + self.surname or u''
 
 
 class Test(models.Model):
@@ -71,7 +71,7 @@ class TimeTest(Test):
     time = models.CharField(max_length=3)
 
     def __unicode__(self):
-        return self.name
+        return self.name or u''
 
 
 class RndTest(Test):
@@ -92,11 +92,14 @@ class Question(models.Model):
     enter = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.question_text
+        return self.question_text or u''
 
 
 class ImQuestion(Question):
     image = models.ImageField()
+
+    def __unicode__(self):
+        return self.question_text or u''
 
 
 class Choice(models.Model):
@@ -105,7 +108,7 @@ class Choice(models.Model):
     right_choice = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return 'Question: ' + self.question.question_text + '         Answer:       ' + self.choice_text
+        return 'Question: ' + self.question.question_text + '         Answer:       ' + self.choice_text or u''
 
 
 class Student(models.Model):
@@ -121,7 +124,7 @@ class Student(models.Model):
         self.user.set_password(raw_password)
 
     def __unicode__(self):
-        return self.name + ' ' + self.surname
+        return self.name + ' ' + self.surname or u''
 
 
 class TestResult(models.Model):
@@ -141,7 +144,7 @@ class TestResult(models.Model):
                + '; Unright: ' + str(len(self.unright_choices.all())) + ' from' + ' ' + self.quest_count \
                + ' questions and ' + str(self.test.choice_count) + ' right choices' + ' from ' + str(
             4 * len(self.test.question_set.all())) \
-               + ' choices'
+               + ' choices' or u''
 
 
 class RegistrTeacherForm(UserCreationForm):

@@ -21,6 +21,7 @@
         android:id="@+id/change"
         android:layout_below="@+id/curiptext"
         android:layout_centerHorizontal="true"
+        android:background="#436EEE"
         android:layout_marginTop="131dp"
         android:onClick="changeip" />
 
@@ -29,10 +30,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/changetext"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/change"
-        android:layout_alignEnd="@+id/change"
-        android:layout_alignLeft="@+id/change"
-        android:layout_alignStart="@+id/change" />
+        android:layout_alignRight="@+id/curiptext"
+        android:layout_alignEnd="@+id/curiptext"
+        android:layout_alignLeft="@+id/curiptext"
+        android:layout_alignStart="@+id/curiptext" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -42,6 +43,7 @@
         android:id="@+id/exit_user"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:background="#FF0000"
         android:layout_alignParentEnd="true"
         android:onClick="exit_click" />
 </RelativeLayout>

@@ -10,38 +10,48 @@
         android:layout_height="wrap_content"
         android:text="Найти опрос"
         android:id="@+id/find"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="177dp"
-        android:onClick="Search" />
+        android:background="#436EEE"
+        android:onClick="Search"
+        android:layout_below="@+id/create"
+        android:layout_alignLeft="@+id/create"
+        android:layout_alignStart="@+id/create"
+        android:layout_alignRight="@+id/create"
+        android:layout_alignEnd="@+id/create" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Создать опрос"
         android:id="@+id/create"
-        android:layout_above="@+id/find"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="71dp"
-        android:onClick="create_click" />
+        android:background="#436EEE"
+        android:onClick="create_click"
+        android:layout_below="@+id/look_res"
+        android:layout_alignLeft="@+id/look_res"
+        android:layout_alignStart="@+id/look_res"
+        android:layout_alignRight="@+id/look_res"
+        android:layout_alignEnd="@+id/look_res" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Настройки"
         android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"
-        android:onClick="settings" />
+        android:background="#436EEE"
+        android:onClick="settings"
+        android:layout_below="@+id/find"
+        android:layout_alignLeft="@+id/find"
+        android:layout_alignStart="@+id/find"
+        android:layout_alignRight="@+id/find"
+        android:layout_alignEnd="@+id/find" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Посмотреть результаты"
+        android:background="#436EEE"
         android:id="@+id/look_res"
+        android:layout_marginTop="138dp"
+        android:onClick="look_results_click"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
-        android:onClick="look_results_click" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

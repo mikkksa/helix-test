@@ -129,7 +129,6 @@ function dropdownsubjects()
         req.onreadystatechange = function() {
 
         if (req.readyState == 4) {
-
             if(req.status == 200) {
                 responseserv = req.responseText;
                 schools = responseserv.split(',');

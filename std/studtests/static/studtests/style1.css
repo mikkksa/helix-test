@@ -21,7 +21,7 @@ ul a {
     color: green;
 }
 body {
-/*background-image: url("images/Test.jpg");*/
+background-image: url("images/Test.jpg");
 background-size: 100% 100%;
 background-repeat:no-repeat;
 background-attachment: fixed;
@@ -63,7 +63,7 @@ display:inline-block;
 }
 #center1 {
   top: 50%;
-  left: 50%;
+  left: 40%;
   width: 800px;
   height: 450px;
   position: absolute;

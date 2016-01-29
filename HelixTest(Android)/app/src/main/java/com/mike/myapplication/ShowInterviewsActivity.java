@@ -68,7 +68,6 @@ public class ShowInterviewsActivity extends Activity {
                 myTask.activity = ShowInterviewsActivity.this;
                 myTask.execute();
             }
-
         });
     }
 

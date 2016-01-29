@@ -31,10 +31,14 @@
         android:layout_height="wrap_content"
         android:text="Следущий"
         android:id="@+id/Next"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="43dp"
+        android:onClick="Next_Click"
+        android:background="#436EEE"
         android:layout_below="@+id/editText6"
-        android:layout_centerHorizontal="true"
-        android:onClick="Next_Click" />
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -42,10 +46,12 @@
         android:layout_height="wrap_content"
         android:text="Добавить и закончить"
         android:id="@+id/Next_end"
-        android:layout_marginTop="41dp"
+        android:background="#0FFF00"
+        android:onClick="End_Click"
         android:layout_below="@+id/Next"
-        android:layout_alignRight="@+id/editText6"
-        android:layout_alignEnd="@+id/editText6"
-        android:onClick="End_Click" />
+        android:layout_alignRight="@+id/Next"
+        android:layout_alignEnd="@+id/Next"
+        android:layout_alignLeft="@+id/Next"
+        android:layout_alignStart="@+id/Next" />
 
 </RelativeLayout>

@@ -235,7 +235,7 @@ def create(request):
                             grade=Grade.objects.get(grade=request.session['grade']),
                             school=user.school, teacher=user, test=Test.objects.get(name=request.session['testname']),
                             theme=request.session['theme'], visibility=True,
-                            subject=Subject.objects.get(subject=request.session['sub']))
+                            subject=Subject.objects.get(subject=request.session['sub'], school=user.school))
         formup = UploadFileForm(request.POST, request.FILES)
         if formup.is_valid:
             try:
@@ -245,7 +245,7 @@ def create(request):
                                       school=user.school, teacher=user,
                                       test=Test.objects.get(name=request.session['testname']),
                                       theme=request.session['theme'], visibility=True,
-                                      subject=Subject.objects.get(subject=request.session['sub']), image=file)
+                                      subject=Subject.objects.get(subject=request.session['sub'], school=user.school), image=file)
             except:
                 pass
         question.save()
@@ -300,11 +300,11 @@ def create(request):
         request.session['testname'] = nametest
         request.session['grade'] = str(grade)
         request.session['theme'] = theme
-        request.session['sub'] = str(sub)
+        request.session['sub'] = sub
         if "time" in request.POST:
             time = request.POST.get("time")
             test = TimeTest(name=nametest, grade=Grade.objects.get(grade=grade), theme=theme,
-                            subject=Subject.objects.get(subject=sub),
+                            subject=Subject.objects.get(subject=sub, school=user.school),
                             school=user.school, visibility=True, teacher=user, time=time)
             test.save()
         elif "rnd" in request.POST:
@@ -315,7 +315,7 @@ def create(request):
             test.save()
         else:
             test = Test(name=nametest, grade=Grade.objects.get(grade=grade), theme=theme,
-                        subject=Subject.objects.get(subject=sub),
+                        subject=Subject.objects.get(subject=sub, school=user.school),
                         school=user.school, visibility=True, teacher=user)
             test.save()
         formup = UploadFileForm(request.POST, request.FILES)
@@ -626,24 +626,29 @@ def gettrfromandr(request):
             falseq = []
             anddata = request.POST.get('testresults')
             data = anddata.split('/')
-            studname = data[0]
+            print data
+            studname = data[0].encode('utf8')
             student = Student.objects.get(login=studname)
-            testid = data[1]
+            testid = data[1].encode('utf8')
             test = Test.objects.get(pk=int(testid))
+            print test.grade, test.id, test.name
             for i, x in enumerate(data[2:len(data) - 1]):
                 if i % 2 == 0:
                     questions.append(x)
                 else:
                     choices.append(x)
             for i, x in enumerate(questions):
-                question = Question.objects.get(question_text=x)
+                print x.encode('utf-8'), questions
+                print questions[i]
+                question = Question.objects.get(pk=int(x))
+                print question
                 if question.test == test:
                     choices_ = Choice.objects.filter(question=question)
                     for j, y in enumerate(choices_):
                         for k in choices:
                             if y.right_choice and k[j] == '1':
                                 rightq.append(y)
-                            elif not y.right_choice and k[j] == '1':
+                            elif (not y.right_choice) and k[j] == '1':
                                 falseq.append(y)
             try:
                 tr = TestResult(student=student, test=test, balls=0,
@@ -723,9 +728,10 @@ def gettrfromandr(request):
 def ajresp(request):
     subs = []
     ids = []
+    user = Student.objects.get(login=request.session['username'])
     if logined(request)[1] == "s":
-        subs = [str(x.subject) for x in Subject.objects.all() if
-                x.school == Student.objects.get(login=logined(request)[0]).school]
+        subs = [x.subject for x in Subject.objects.all() if
+                x.school.id == user.school.id]
         ids = [str(x.id) for x in Subject.objects.all() if
                x.school == Student.objects.get(login=logined(request)[0]).school]
     strsubs = ""
@@ -993,7 +999,9 @@ def lookresint(request):
 
 @csrf_exempt
 def getrestest(request):
+    print str(request.POST.get("login"))
     student = Student.objects.get(pk=int(request.POST.get("login")))
+    print student
     trs = [x for x in TestResult.objects.all() if x.student.id == student.id]
     strres = ""
     for x in trs:

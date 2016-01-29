@@ -22,6 +22,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -95,7 +96,7 @@ class GetResultsTask extends AsyncTask<String, Void, Void>{
         List<String> res = new ArrayList<>();
         pairs.add(new BasicNameValuePair("interview", interview.id));
         try {
-            post.setEntity(new UrlEncodedFormEntity(pairs));
+            post.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
             HttpResponse response = client.execute(post);
             HttpEntity entity = response.getEntity();
             result = EntityUtils.toString(entity);

@@ -54,10 +54,12 @@
         android:layout_height="wrap_content"
         android:text="Войти"
         android:id="@+id/enter"
-        android:layout_below="@+id/editText3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
-        android:onClick="login" />
+        android:background="#436EEE"
+        android:onClick="login"
+        android:layout_alignBaseline="@+id/button3"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_toLeftOf="@+id/editText3"
+        android:layout_toStartOf="@+id/editText3" />
 
     <Button
         android:layout_width="wrap_content"
@@ -65,7 +67,9 @@
         android:text="Настройки"
         android:id="@+id/button3"
         android:onClick="settings_"
-        android:layout_below="@+id/enter"
-        android:layout_alignRight="@+id/editText3"
-        android:layout_alignEnd="@+id/editText3" />
+        android:background="#436EEE"
+        android:layout_below="@+id/editText3"
+        android:layout_toRightOf="@+id/login"
+        android:layout_toEndOf="@+id/login"
+        android:layout_marginTop="50dp" />
 </RelativeLayout>

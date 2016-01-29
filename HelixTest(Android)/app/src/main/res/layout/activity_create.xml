@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText4"
         android:width="180dp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/int_name"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -22,8 +22,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Название опроса"
         android:id="@+id/int_name"
-        android:layout_above="@+id/editText4"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/editText4"
+        android:layout_alignStart="@+id/editText4"
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -50,7 +52,12 @@
         android:layout_height="wrap_content"
         android:text="Далее"
         android:id="@+id/tochoices"
+        android:background="#436EEE"
+        android:onClick="Choices_Click"
         android:layout_below="@+id/editText5"
-        android:layout_centerHorizontal="true"
-        android:onClick="Choices_Click" />
+        android:layout_marginTop="46dp"
+        android:layout_alignRight="@+id/int_name"
+        android:layout_alignEnd="@+id/int_name"
+        android:layout_alignLeft="@+id/editText5"
+        android:layout_alignStart="@+id/editText5" />
 </RelativeLayout>

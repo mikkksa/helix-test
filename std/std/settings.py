@@ -45,7 +45,8 @@ INSTALLED_APPS = (
     'rest_framework',
     'tastypie',
     'lxml',
-    'PIL'
+    'PIL',
+    'scorm_api'
 )
 
 REST_FRAMEWORK = {

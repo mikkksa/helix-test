@@ -5,7 +5,6 @@
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/std</jdbc-url>
-      <libraries />
     </data-source>
     <data-source source="LOCAL" name="Django default2" uuid="c5782763-d291-42e1-8d48-3fa51d60bc60">
       <driver-ref>mysql</driver-ref>
@@ -19,7 +18,6 @@
         <property name="characterSetResults" value="utf8" />
         <property name="yearIsDateType" value="false" />
       </driver-properties>
-      <libraries />
     </data-source>
   </component>
 </project>

@@ -12,6 +12,7 @@
 <script src="{% static 'studtests/foundation.topbar.js' %}"></script>
 <script src="{% static 'studtests/foundation.min.js' %}"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="{% static "studtests/scorm_api.js" %}"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 <!--[if lt IE 9]>
   <script type="text/javascript" src="{% static 'studtests/js/excanvas/excanvas.js' %}"></script>
@@ -100,6 +101,7 @@
 {% block test %}{% endblock %}
 {% block studresults %}{% endblock %}
 {% elif username and usertype == "t" %}
+{% block tincanman %}{% endblock %}
 {% block createint %}{% endblock %}
 {% block tdetail %}{% endblock %}
 {% block createdtests %}{% endblock %}

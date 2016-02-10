@@ -25,5 +25,6 @@ urlpatterns = patterns('',
                        url(r'^auth/', include('loginsys.urls')),
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                       url(r'^scorm/', include('scorm_api.urls', namespace='scorm')),
                        url(r'^', include('studtests.urls', namespace="studtests")),
                        )

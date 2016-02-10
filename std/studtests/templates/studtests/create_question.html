@@ -15,7 +15,9 @@
             </div>
         {% endfor %}
         </div>
-    <br>
+    <br><br>
+        <label for="enter">Или впишите правильный ответ для вопроса с краткой формой ответа</label>
+        <input type="text" name="enter" id="enter" style="width: 10%">
         {{ formup }}
         <a href="#" class="button round" onclick="addchoice()">Добавить ответ</a>
         <input class="button" type="submit" name="create_question" value="Создать вопрос"><br>

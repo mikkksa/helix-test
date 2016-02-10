@@ -36,7 +36,7 @@
 {% csrf_token %}
 
 <div id="center1" style="margin-left: 0%; ">
-<table width="30%">
+<table width="50%">
 <tr><td>Вопрос</td><td>Варианты ответа</td></tr>
 {% for question in questions %}
     <tr>
@@ -57,7 +57,7 @@
             {% endif %}
         {% endfor %}
             {% else %}
-            <td><input class="inl" type="text" name="enter_{{ question.id }}"></td>
+            <td><input class="inl" type="text" name="enter_{{ question.id }}" id="enter_{{ question.id }}" required></td>
         {% endif %}
     {% endif %}
     </tr>

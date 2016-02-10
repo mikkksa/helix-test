@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#from __future__ import unicode_literals
+# from __future__ import unicode_literals
 
 import random, time, threading
 
@@ -61,7 +61,7 @@ def subject_test(request, subject_id):
             if tr.test.name == test.name and tr.student == student:
                 finished = True
 
-        if test.subject == subject and test.visibility and test.school == subject.school and not finished:
+        if test.subject == subject and test.visibility and test.school == subject.school and test.grade == student.grade and not finished:
             tests.append(test)
     context = {'tests': tests}
     if 'username' in request.session:
@@ -161,6 +161,7 @@ def vote(request, test_id):
             finished = True
     if not finished:
         checkbox_list = [x for x in request.POST if x.startswith('choice')]
+        enter_list = [x for x in request.POST if x.startswith('enter')]
         list = []
         a = 0
         right_choices = []
@@ -177,6 +178,15 @@ def vote(request, test_id):
             else:
                 list += 'False'
                 unright_choices.append(selected_choice)
+        for c in enter_list:
+            id = c.replace("enter_", "")
+            value = request.POST.get(c)
+            quest = Question.objects.get(pk=int(id))
+            if value == quest.choice_set.all()[0].choice_text:
+                a += 1
+                right_choices.append(quest.choice_set.all()[0])
+            else:
+                unright_choices.append(quest.choice_set.all()[0])
         s = Student.objects.get(login=request.session['username'])
         tr = TestResult(student=s, test=p, balls=0, quest_count=len(p.question_set.all()))
         if (p in RndTest.objects.all()):
@@ -245,7 +255,8 @@ def create(request):
                                       school=user.school, teacher=user,
                                       test=Test.objects.get(name=request.session['testname']),
                                       theme=request.session['theme'], visibility=True,
-                                      subject=Subject.objects.get(subject=request.session['sub'], school=user.school), image=file)
+                                      subject=Subject.objects.get(subject=request.session['sub'], school=user.school),
+                                      image=file)
             except:
                 pass
         question.save()
@@ -254,18 +265,28 @@ def create(request):
         sessionlist.append(question.id)
         request.session['questions'] = sessionlist
         right_choices = 0
-        for c in question_list:
-            id = c.replace('choice_', '')
-            box = "id" + id
-            if box in request.POST:
-                choice = Choice(choice_text=request.POST[str(c)], question=question, right_choice=True)
-                right_choices += 1
-            else:
-                if request.POST.get('choice_' + id).replace(" ", "") == "":
-                    continue
-                else:
-                    choice = Choice(choice_text=request.POST[str(c)], question=question, right_choice=False)
+
+        enter = request.POST.get('enter')
+        enter = enter.replace(" ", "")
+        if enter != "":
+            right_choices = 1
+            question.enter = True
+            question.save()
+            choice = Choice(choice_text=enter, question=question, right_choice=True)
             choice.save()
+        else:
+            for c in question_list:
+                id = c.replace('choice_', '')
+                box = "id" + id
+                if box in request.POST:
+                    choice = Choice(choice_text=request.POST[str(c)], question=question, right_choice=True)
+                    right_choices += 1
+                else:
+                    if request.POST.get('choice_' + id).replace(" ", "") == "":
+                        continue
+                    else:
+                        choice = Choice(choice_text=request.POST[str(c)], question=question, right_choice=False)
+                choice.save()
         test.choice_count = right_choices + request.session['c_count']
         request.session['c_count'] += right_choices
         test.save()
@@ -422,13 +443,13 @@ def all_tests(request):
             for test in TestResult.objects.all():
                 if test.test.school == user.school and test.test.teacher == user:
                     if 'cl' in request.POST:
-                        if test.student.grade.grade == request.POST.get('cl'):
+                        if test.test.grade == request.POST.get('cl'):
                             tests.append(test)
                     else:
                         tests.append(test)
                     if test.balls != 0:
                         raited = test.balls
-            if request.POST and not 'cl' in request.POST:
+            if request.POST:
                 balls = [x for x in request.POST if x.startswith('rat')]
                 edballs = [x for x in request.POST if x.startswith('ed')]
                 edrats = [x for x in request.POST if x.startswith('eeds') and request.POST[x]]
@@ -993,9 +1014,10 @@ def lookresint(request):
     choices = [x for x in InterviewChoice.objects.all() if x.interview.id == interview.id]
     choicesstr = ""
     for x in choices:
-        choicesstr += str(x) + "/" + str(x.pick) + "/"
+        choicesstr += x.name + "/" + x.pick + "/"
     choicesstr = choicesstr[:len(choicesstr) - 1]
     return HttpResponse(choicesstr)
+
 
 @csrf_exempt
 def getrestest(request):
@@ -1006,5 +1028,6 @@ def getrestest(request):
     strres = ""
     for x in trs:
         x += x.id + "/"
-    strres = strres[:len(strres)-1]
+    strres = strres[:len(strres) - 1]
     return HttpResponse(strres)
+

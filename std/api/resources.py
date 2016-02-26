@@ -1,8 +1,9 @@
-#from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication, MultiAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
-from studtests.models import Teacher, Subject, Test, Student, School, Grade, Choice, Question, TestResult, ImQuestion, Interview, InterviewResult, InterviewChoice, User
+from studtests.models import Teacher, Subject, Test, Student, School, Grade, Choice, Question, TestResult, ImQuestion, \
+    Interview, InterviewResult, InterviewChoice, User
 from tastypie.authentication import Authentication
 from tastypie import fields
 from tastypie.serializers import Serializer
@@ -47,6 +48,7 @@ class MyModelResource(ModelResource):
         except User.DoesNotExist:
             pass
         return bundle
+
     user = fields.ForeignKey(UserResource, 'user', null=True, blank=True)
     school = fields.ForeignKey(SchoolResource, 'school', null=True, blank=True)
 
@@ -82,15 +84,18 @@ class QuestionResource(ModelResource):
         try:
             test = Test.objects.filter(id=bundle.obj.test.id)
             count = 0
+            chcount = len([x for x in Choice.objects.all() if x.question_id == bundle.obj.id])
             for x in Question.objects.all():
                 test2 = Test.objects.get(pk=test[0].id)
                 if x.test == test2:
                     count += 1
             bundle.data['test'] = test[0].id
+            bundle.data['choice_count'] = chcount
             bundle.data['question_count'] = count
         except Test.DoesNotExist:
             pass
         return bundle
+
     test1 = fields.ForeignKey(TestModelResource, 'test', null=True)
 
     class Meta:
@@ -110,6 +115,7 @@ class ChoiceResource(ModelResource):
         except Test.DoesNotExist:
             pass
         return bundle
+
     question = fields.ForeignKey(QuestionResource, 'question', null=True)
 
     class Meta:
@@ -128,6 +134,7 @@ class TestResultResource(ModelResource):
         except Test.DoesNotExist:
             pass
         return bundle
+
     class Meta:
         queryset = TestResult.objects.all()
         resource_name = 'testresults'
@@ -149,6 +156,7 @@ class StModelResource(ModelResource):
         except Grade.DoesNotExist:
             pass
         return bundle
+
     user = fields.ForeignKey(UserResource, 'user', null=True)
     school = fields.ForeignKey(SchoolResource, 'school', null=True)
     grade = fields.ForeignKey(GradeResource, 'grade', null=True)
@@ -172,6 +180,7 @@ class ImquestionsResource(ModelResource):
 
 class InterviewResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user', null=True)
+
     def dehydrate(self, bundle):
         try:
             user = User.objects.filter(id=bundle.obj.user.id)
@@ -179,6 +188,7 @@ class InterviewResource(ModelResource):
         except:
             pass
         return bundle
+
     class Meta:
         limit = 0
         queryset = Interview.objects.all()
@@ -189,10 +199,10 @@ class InterviewResource(ModelResource):
 
 class InterviewChoiceResource(ModelResource):
     interview = fields.ForeignKey(InterviewResource, 'interview', null=True)
+
     class Meta:
         limit = 0
         queryset = InterviewChoice.objects.all()
         resource_name = 'interview_choices'
         allowed_method = ['get']
         serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
-

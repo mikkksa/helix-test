@@ -3,5 +3,6 @@ from std import settings
 from scorm_api import views
 
 urlpatterns = patterns('',
-                       url(r'^', views.index, name='scormind'),
+                       url(r'^myfiles/$', views.myfiles, name="myfiles"),
+                       url(r'^$', views.index, name='scormind'),
                        )

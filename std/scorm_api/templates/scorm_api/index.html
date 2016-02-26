@@ -1,10 +1,12 @@
 {% extends "studtests/base.html" %}
 {% block tincanman %}
     <div id="center">
+    <div id="center">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form }}
             <input type="submit" name="up" value="Загрузить">
         </form>
     </div>
+    <div align="right"><a href="/scorm/myfiles/" class="button">Мои файлы</a></div></div>
 {% endblock %}

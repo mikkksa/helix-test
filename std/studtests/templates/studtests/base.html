@@ -34,6 +34,8 @@
     <section class="top-bar-section">
         <ul class="right">
             {% if usertype == "t" %}
+            <li><a href="/opened_tests/">Открытые тесты</a></li>
+            <li><a href="/scorm/">SCORM/TinCan</a> </li>
             <li><a href="/myinterviews">Мои опросы</a></li>
             <li><a href="/mytests">Мои тесты</a></li>
             <li><a href="/tests">Все результаты тестов ваших учеников</a></li>
@@ -101,6 +103,7 @@
 {% block test %}{% endblock %}
 {% block studresults %}{% endblock %}
 {% elif username and usertype == "t" %}
+{% block myfiles %}{% endblock %}
 {% block tincanman %}{% endblock %}
 {% block createint %}{% endblock %}
 {% block tdetail %}{% endblock %}

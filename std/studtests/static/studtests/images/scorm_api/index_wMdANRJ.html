@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://getbootstrap.com/2.3.2/examples/starter-template.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {% load static %}
+    <meta charset="utf-8">
+    <title>StulClick</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name='yandex-verification' content='4f5686bda28bbd61' />
+    <meta name='yandex-verification' content='5c24c7ed57cdb93f' />
+
+    <!-- Le styles -->
+    <link href="{% static 'engine/css/bootstrap.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'engine/img/html_4759.ico' %}" type="image/x-icon">
+    <style>
+        @media (max-width:1150px){
+        .leftcol{max-width:70%}
+        .rightcol{max-width:30%}
+        .container{max-width:90%;}
+        .navbar{position:static; margin:0%;}
+        .container>.table{font-size:0%;}
+        .rightcol>img{max-width:0%;}
+        .rightcol>h3{font-size:0%}
+        .leftcol>div>img{max-width:0%;}
+        .leftcol>img{max-width:0%}
+        .footer{font-size:70%}
+        #cont{margin-top:-80%;padding-top:0%}
+        h3{font-size:70%}
+        body{margin-top:-10%}
+        }
+        .tt{
+        border-collapse: collapse; /* Убираем двойные линии между ячейками */
+        border: 2px solid white; /* Прячем рамку вокруг таблицы */
+        }
+        .tttd{
+            padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 3px solid #d28139; /* Параметры рамки */
+    text-align: left; /* Выравнивание по левому краю */
+        }
+        .divramka{
+            border: 1px solid #d28139;
+            border-radius: 10px; /* Радиус скругления */
+        }
+        .divchild{
+            padding: 10px; /* Поля вокруг текста */
+            margin: 10px; /* Отступы вокруг */
+        }
+        .rightbut{
+            float: left; /* Обтекание справа */
+            width: 20%; /* Ширина колонки */
+
+        }
+        .footer{
+            position: fixed;
+  bottom: 0;
+  width:100%;
+  /* Set the fixed height of the footer here */
+  height: 20px;
+  background-color: #1b1b1b;
+            color:#999999;
+            margin-top: 80px;
+        }
+        .leftcol { /* Левая колонка */
+  float: left; /* Обтекание справа */
+  width: 350px; /* Ширина колонки */
+}
+        .rightcol{
+            float: right;
+            margin-right: 100px;
+            width: 350px;
+        }
+    </style>
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+          background: url({% static 'engine/images/b.png' %}) no-repeat;
+           margin-bottom: 60px;
+      }
+        table{
+            border-spacing: 7px 11px; /* Расстояние между ячейками */
+            mso-cellspacing: 20px;
+        }
+    </style>
+
+  </head>
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">StulClick</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="/">Домой</a></li>
+              <li><a href="/contacts">Контакты</a></li>
+                <li><a href="/about">О нас</a> </li>
+                <li><a href="/delivery">Доставка по России</a> </li>
+                <li><a href="/acs">Аксессуары</a> </li>
+                <li><a href="/cart">Корзина &nbsp;&nbsp;<img src="{% static 'engine/images/cart.png' %}" width="20"> ({{ cart }})</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="rightcol"><h3>8-925-653-64-39<br>
+    magazin0212@inbox.ru</h3>
+        <br><br><br><br><br><br><br>
+        <img src="{% static 'engine/images/right.jpg' %}" width="800"></div>
+    <div class="leftcol">
+        <img src="{% static 'engine/images/besplatnaya-dostavka.png' %}"><br><br>
+        <div><img style="margin-bottom: 20%;width: 300%" src="{% static 'engine/images/left.jpg' %}"></div>
+    </div>
+    <div class="container" id="cont" name="cont">
+    {% block first %}{% endblock %}
+    {% block kotokota %}{% endblock %}
+    {% block kametta %}{% endblock %}
+    {% block cart %}{% endblock %}
+    {% block format %}{% endblock %}
+    {% block delivery %}{% endblock %}
+    {% block contacts %}{% endblock %}
+    {% block about %}{% endblock %}
+    {%block thank%}{%endblock%}
+    {% block acs %}{% endblock %}
+        {% block stol%}{%endblock%}
+{%block ogran%}{%endblock%}
+
+    </div> <!-- /container -->
+    <div class="footer" ALIGN="center">
+        Наш телефон: 8-925-653-64-39 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Почта: magazin0212@inbox.ru
+    </div>
+  <script src="{% static 'engine/js/desc.js' %}"></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter32062431 = new Ya.Metrika({
+                    id:32062431,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/32062431" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66550768-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+
+</body></html>

@@ -62,6 +62,7 @@ class Test(models.Model):
     grade = models.ForeignKey(Grade, null=True)
     theme = models.CharField(max_length=200, null=True)
     visibility = models.BooleanField(default=False)
+    opened = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
@@ -86,9 +87,9 @@ class Question(models.Model):
     teacher = models.ForeignKey(Teacher, null=True)
     school = models.ForeignKey(School, null=True)
     grade = models.ForeignKey(Grade, null=True)
-    theme = models.CharField(max_length=200)
+    theme = models.CharField(max_length=200, null=True)
     visibility = models.BooleanField(default=False)
-    test = models.ForeignKey(Test, null=True)
+    test = models.ForeignKey(Test, default='')
     enter = models.BooleanField(default=False)
 
     def __unicode__(self):

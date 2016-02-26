@@ -1,0 +1,32 @@
+{% extends 'engine/index.html' %}
+{% load static %}
+{% block cart %}
+    <form action="/cart" method="post">
+    {% csrf_token %}
+
+    <table width="1000">
+    <tr>
+        <td></td><td><b>Название</b></td><td><b>Стоимость</b></td><td><b>Цвет</b></td>
+    </tr>
+       {% for k in colors %}
+    <tr style="border: 2px solid #d28139;"> {% if kams != 0 %}<td>
+            <a href="/kametta"><img src="{% static 'engine/images/kametta/miniatures/orekh.jpg' %}"></a>
+    </td><td>Стул Kametta</td><td>4860р</td><td>{{ k }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    {% for k in colorskot %}
+    <tr style="border: 2px solid #d28139;">
+        {% if kots != 0 %}<td>
+            <a href="/kotokota"><img src="{% static 'engine/images/kotokota/miniatures/183_8.jpg' %}"></a>
+    </td><td>Растущий стул</td><td>4600р</td><td>{{ k }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    <tr style="border: 2px solid #d28139;"><td>Итого: <output id="result"><b>{{ sum }}</b>р</output> (без учета доставки)</td><td></td><td></td><td></td></tr>
+    </table>
+    <button class="btn btn-danger" style="display: inline-block" name="deletec" id="deletec">Очистить корзину</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-success" style="display: inline-block" name="format" id="format">Оформить</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-info" style="display: inline-block" name="cont" id="cont">Продолжить покупки</button>
+    </form>
+{% endblock %}

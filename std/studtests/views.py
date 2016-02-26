@@ -318,6 +318,7 @@ def create(request):
         grade = request.POST.get("test_grade")
         theme = request.POST.get("test_theme")
         sub = request.POST.get("sel")
+        opened = request.POST.get("opened")
         request.session['testname'] = nametest
         request.session['grade'] = str(grade)
         request.session['theme'] = theme
@@ -326,18 +327,18 @@ def create(request):
             time = request.POST.get("time")
             test = TimeTest(name=nametest, grade=Grade.objects.get(grade=grade), theme=theme,
                             subject=Subject.objects.get(subject=sub, school=user.school),
-                            school=user.school, visibility=True, teacher=user, time=time)
+                            school=user.school, visibility=True, teacher=user, time=time, opened=opened)
             test.save()
         elif "rnd" in request.POST:
             qucount = request.POST.get("rnd")
             test = RndTest(name=nametest, grade=Grade.objects.get(grade=grade), theme=theme,
                            subject=Subject.objects.get(subject=sub),
-                           school=user.school, visibility=True, teacher=user, qcount=qucount)
+                           school=user.school, visibility=True, teacher=user, qcount=qucount, opened=opened)
             test.save()
         else:
             test = Test(name=nametest, grade=Grade.objects.get(grade=grade), theme=theme,
                         subject=Subject.objects.get(subject=sub, school=user.school),
-                        school=user.school, visibility=True, teacher=user)
+                        school=user.school, visibility=True, teacher=user, opened=opened)
             test.save()
         formup = UploadFileForm(request.POST, request.FILES)
         context['formup'] = formup
@@ -1030,4 +1031,3 @@ def getrestest(request):
         x += x.id + "/"
     strres = strres[:len(strres) - 1]
     return HttpResponse(strres)
-

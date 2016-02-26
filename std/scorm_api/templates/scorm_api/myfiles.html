@@ -1,0 +1,31 @@
+{% extends "studtests/base.html" %}
+{% block myfiles %}
+    <div id="center">
+    Мои файлы
+    <form method="post">
+    {% csrf_token %}
+    <table>
+    {% for x in files %}
+        <tr><td>
+        <a href="#"> {{ x.name }}</a>
+        </td>
+        <td><input type="checkbox" name="c_{{ x.path }}" value="c_{{ x.path }}"></td>
+        </tr>
+    {% endfor %}
+    </table>
+    <select name="sub">
+        {% for x in subs %}
+            <option>{{ x }}</option>
+        {% endfor %}
+    </select>
+    <select name="grade">
+        {% for x in grades %}
+        <option>{{ x }}</option>
+        {% endfor %}
+    </select>
+    <label for="name">Название</label>
+    <input type="text" name="name" id="name">
+    <input type="submit" class="button" value="Создать тест" name="create">
+    </form>
+    </div>
+{% endblock %}

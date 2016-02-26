@@ -4,10 +4,12 @@ from django.contrib.auth.models import User
 from django.utils.html import format_html
 from studtests.models import Question, Choice, Subject, School, Student, Teacher, Test, TestResult, Grade, TimeTest, \
     ImQuestion, Interview, InterviewChoice, InterviewResult, News
+import scorm_api.models as scmodels
 
 
 class SubjectAdmin(admin.ModelAdmin):
     fields = ['subject', 'school']
+
 
 class LawyerAdmin(admin.ModelAdmin):
     list_display = ('definition', 'image')
@@ -17,6 +19,7 @@ class LawyerAdmin(admin.ModelAdmin):
 
     show_firm_url.short_description = "Firm URL"
     show_firm_url.allow_tags = True
+
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -34,6 +37,7 @@ class QuestionAdmin(admin.ModelAdmin):
         ('Teacher', {'fields': ['teacher']}),
         ('Visible', {'fields': ['visibility']}),
         ('Test', {'fields': ['test']}),
+        ('Enter', {'fields': ['enter']}),
     ]
     inlines = [ChoiceInline]
     list_display = ('question_text', 'teacher', 'school', 'pub_date', 'edit_date')
@@ -46,7 +50,7 @@ class StudentInline(admin.StackedInline):
 
 
 class UserAdmin(UserAdmin):
-    inlines = (StudentInline, )
+    inlines = (StudentInline,)
 
 
 admin.site.unregister(User)
@@ -66,3 +70,4 @@ admin.site.register(Interview)
 admin.site.register(InterviewChoice)
 admin.site.register(InterviewResult)
 admin.site.register(News, LawyerAdmin)
+admin.site.register(scmodels.UploadedTinCan)

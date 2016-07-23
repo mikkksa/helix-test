@@ -11,3 +11,4 @@ setup(
     author_email='',
     description='', requires=['django']
 )
+#com
